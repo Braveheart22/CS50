@@ -1,0 +1,22 @@
+0.  Colors: BMP - up to 4,294,967,296; GIF - 256; JPG - 16,581,375; PNG - 16,581,375
+1.  GIF supports animation.
+2.  Lossy compression will make an image file smaller by making similar information the same (such as choosing 1 shade of blue for an entire sky).
+    Lossless compression will recreate each pixel as it was thereby keeping all of the original image information in tact.
+3.  Lossy formats: JPG, GIF.  Lossless: BMP, PNG.
+4.  The location of the file on the disk is marked as useable.  The pointer to the files location is deleted.
+5.  Sanitize the drive with software, and then physically destroy the drive containing the data.
+6.  stdint.h contains definitions of several new integer types in order to enhance the portability of programs.
+7.  The point in using these extended data types is to allow greater program portability between systems.  It will allow a program to work on a 64 bit Linux
+     system, as well as a 32 bit Windows system.
+8.  BYTE: 1 byte, DWORD: 4 bytes, LONG: 4 bytes, WORD: 2 bytes.
+9.  The first 2 bytes of a BMP header are 'B', and 'M' (0x42 and 0x4D in hex respectively).
+10. bfSize = 246, which is the size, in bytes, of the bitmap file.  biSize = 40, which is the number of bytes required by the BITMAPINFOHEADER structure.
+11. If biHeight is negative, it indicates a top-down DIB (device-independent bitmap)
+12. The field that specifies a BMP's color depth is biBitCount
+13. fopen may return null if the destination file was unable to be created.  This may happen if a user doesn't have the rights to create files in the directory.
+14. The 3rd argument is always 1 because that is the amount of elements to read from the file.  We want to read, and evaluate 1 element at a time.
+15. the value 3 would be assigned (sizeof (RGBTRIPLE) = 3; ((4 - (3 * 3) % 4) % 4) = 3)
+16. fseek sets the file position indicator.  In the copy.c program in particular, it will help ignore any padding in the file being scanned.
+17. SEEK_CUR indicates to the fseek function that he position should be offset from the current postion indicator (as opposed to the offset from the start
+    of the file, or end of the file).
+18. Milo Banana dun it.
