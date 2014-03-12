@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
     // ensure proper usage
     if (argc != 4)
     {
-        printf("Usage: ./resize SCALE infile outfile\n");
+        printf("Usage: ./resize SCALE inFile outFile\n");
         return 1;
     }
 
@@ -60,6 +60,19 @@ int main(int argc, char* argv[])
         fprintf(stderr, "Unsupported file format.\n");
         return 4;
     }
+/*
+    Need to update  file size   - bf.bfSize
+                    image size  - bi.biSizeImage
+                    width       - bi.biWidth (does NOT include padding)
+                    height      - bi.biHeight
+*/
+    long originalWidth = bi.biWidth;
+    long originalHeight = bi.biHeight;
+
+    bi.biWidth = bi.biWidth * scale;
+    bi.biHeight = bi.biHeight * scale;
+    bf.bfSize = bf.bfSize * scale;
+    bi.biSizeImage = bi.biSizeImage * scale;
 
     // write outfile's BITMAPFILEHEADER
     fwrite(&bf, sizeof(BITMAPFILEHEADER), 1, outptr);
@@ -68,13 +81,16 @@ int main(int argc, char* argv[])
     fwrite(&bi, sizeof(BITMAPINFOHEADER), 1, outptr);
 
     // determine padding for scanlines
-    int padding =  (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
+    int originalPadding =  (4 - (originalWidth * sizeof(RGBTRIPLE)) % 4) % 4;
+    int newPadding =  (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
+    int rowLength = bi.biWidth * scale;
 
     // iterate over infile's scanlines
-    for (int i = 0, biHeight = abs(bi.biHeight); i < biHeight; i++)
+    for (int i = 0, biHeight = abs(originalHeight); i < biHeight; i++)
     {
         // iterate over pixels in scanline
-        for (int j = 0; j < bi.biWidth; j++)
+        RGBTRIPLE entireRow[rowLength];
+        for (int j = 0, columnNumber = 0; j < originalWidth; j++)
         {
             // temporary storage
             RGBTRIPLE triple;
@@ -83,16 +99,38 @@ int main(int argc, char* argv[])
             fread(&triple, sizeof(RGBTRIPLE), 1, inptr);
 
             // write RGB triple to outfile
-            fwrite(&triple, sizeof(RGBTRIPLE), 1, outptr);
+            for (int k = 0; k < scale; k++)
+            {
+                fwrite(&triple, sizeof(RGBTRIPLE), 1, outptr);
+                /*write the triple to an array so we can duplicate the entire row*/
+                entireRow[columnNumber] = triple;
+                columnNumber ++;
+            }
         }
 
         // skip over padding, if any
-        fseek(inptr, padding, SEEK_CUR);
-
-        // then add it back (to demonstrate how)
-        for (int k = 0; k < padding; k++)
+        // This would be the padding in the ORIGINAL file
+        fseek(inptr, originalPadding, SEEK_CUR);
+        
+        // Add the padding for the first line we just copied, if necessary
+        for (int j = 0; j < newPadding; j++)
         {
             fputc(0x00, outptr);
+        }        
+
+        // Copy each line we just created to scale vertically
+        for (int j = 0; j < (scale - 1); j++)
+        {
+            for (int k = 0; k < rowLength; k++)
+            {
+                fwrite(&entireRow[k], sizeof(RGBTRIPLE), 1, outptr);        
+            }
+
+            // add padding to new lines, if necessary
+            for (int l = 0; l < newPadding; l++)
+            {
+                fputc(0x00, outptr);
+            }        
         }
     }
 
