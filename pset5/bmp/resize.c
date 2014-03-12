@@ -90,8 +90,8 @@ int main(int argc, char* argv[])
     {
         // iterate over pixels in scanline
         RGBTRIPLE entireRow[rowLength];
-        int pixels;
-        for (int j = 0, columnNumber = 0; j < originalWidth; j++)
+        int pixels = 0;
+        for (int j = 0; j < originalWidth; j++)
         {
             // temporary storage
             RGBTRIPLE triple;
@@ -104,10 +104,9 @@ int main(int argc, char* argv[])
             {
                 fwrite(&triple, sizeof(RGBTRIPLE), 1, outptr);
                 /*write the triple to an array so we can duplicate the entire row*/
-                entireRow[columnNumber] = triple;
-                columnNumber ++;
+                entireRow[pixels] = triple;
+                pixels ++;
             }
-            pixels = columnNumber;
         }
         // skip over padding, if any
         // This would be the padding in the ORIGINAL file
