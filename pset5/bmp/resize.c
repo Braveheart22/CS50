@@ -90,6 +90,7 @@ int main(int argc, char* argv[])
     {
         // iterate over pixels in scanline
         RGBTRIPLE entireRow[rowLength];
+        int pixels;
         for (int j = 0, columnNumber = 0; j < originalWidth; j++)
         {
             // temporary storage
@@ -106,8 +107,8 @@ int main(int argc, char* argv[])
                 entireRow[columnNumber] = triple;
                 columnNumber ++;
             }
+            pixels = columnNumber;
         }
-
         // skip over padding, if any
         // This would be the padding in the ORIGINAL file
         fseek(inptr, originalPadding, SEEK_CUR);
@@ -121,7 +122,7 @@ int main(int argc, char* argv[])
         // Copy each line we just created to scale vertically
         for (int j = 0; j < (scale - 1); j++)
         {
-            for (int k = 0; k < rowLength; k++)
+            for (int k = 0; k < pixels; k++)
             {
                 fwrite(&entireRow[k], sizeof(RGBTRIPLE), 1, outptr);        
             }
@@ -142,6 +143,4 @@ int main(int argc, char* argv[])
 
     // that's all folks
     return 0;
-    
-    return scale;
 }
