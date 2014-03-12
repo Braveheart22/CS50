@@ -68,15 +68,14 @@ int main(int argc, char* argv[])
     long originalWidth = bi.biWidth;
     long originalHeight = bi.biHeight;
 
-    // calculate the new width and height
-    bi.biWidth = bi.biWidth * scale;
-    bi.biHeight = bi.biHeight * scale;
-    
     // determine padding for scanlines
     int originalPadding =  (4 - (originalWidth * sizeof(RGBTRIPLE)) % 4) % 4;
     int newPadding =  (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
 
-    bi.biSizeImage = ((abs(bi.biWidth) * 3) + newPadding) * abs(bi.biHeight);
+    bi.biWidth = bi.biWidth * scale;
+    bi.biHeight = bi.biHeight * scale;
+    bi.biSizeImage = bi.biWidth * bi.biHeight;
+//    bi.biSizeImage = bi.biSizeImage * scale;
     bf.bfSize = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER) + bi.biSizeImage;
 
     // write outfile's BITMAPFILEHEADER
