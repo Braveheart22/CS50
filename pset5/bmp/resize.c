@@ -4,12 +4,11 @@
  * Computer Science 50
  * Problem Set 5
  *
- * Resizes a BMP piece by piece
+ * Resizes a BMP piece by scaled piece
  */
        
 #include <stdio.h>
 #include <stdlib.h>
-
 #include "bmp.h"
 
 int main(int argc, char* argv[])
@@ -71,7 +70,7 @@ int main(int argc, char* argv[])
 
     bi.biWidth = bi.biWidth * scale;
     bi.biHeight = bi.biHeight * scale;
-    bf.bfSize = bf.bfSize * scale;
+    bf.bfSize = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER) + (bi.biSizeImage * scale);
     bi.biSizeImage = bi.biSizeImage * scale;
 
     // write outfile's BITMAPFILEHEADER
@@ -83,7 +82,7 @@ int main(int argc, char* argv[])
     // determine padding for scanlines
     int originalPadding =  (4 - (originalWidth * sizeof(RGBTRIPLE)) % 4) % 4;
     int newPadding =  (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
-    int rowLength = bi.biWidth * scale;
+    int rowLength = originalWidth * scale;
 
     // iterate over infile's scanlines
     for (int i = 0, biHeight = abs(originalHeight); i < biHeight; i++)
