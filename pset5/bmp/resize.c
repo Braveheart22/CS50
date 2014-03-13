@@ -76,6 +76,7 @@ int main(int argc, char* argv[])
     int originalPadding =  (4 - (originalWidth * sizeof(RGBTRIPLE)) % 4) % 4;
     int newPadding =  (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
 
+    // calculate new image size, and file size
     bi.biSizeImage = ((abs(bi.biWidth) * 3) + newPadding) * abs(bi.biHeight);
     bf.bfSize = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER) + bi.biSizeImage;
 
