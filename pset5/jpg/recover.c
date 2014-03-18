@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
     }
     
     // read 512 bytes of data
-    while (fread(&buffer, 512, 1, recoverThis) != 0)
+    while (fread (&buffer, 512, 1, recoverThis) != 0)
     {
         //check if the first 8 bytes are 0xff 0xd8 0xff 0xe0 or 0xff 0xd8 0xff 0xe1
         if (buffer[0] == 0xff && buffer [1] == 0xd8 && buffer[2] == 0xff &&
@@ -57,7 +57,7 @@ int main(int argc, char* argv[])
                 fwrite(&buffer, 512, 1, recovered);
             }
         }
-    };
+    }
 
 // Close any open files
     fclose (recovered);

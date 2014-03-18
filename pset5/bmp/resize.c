@@ -25,12 +25,19 @@ int main(int argc, char* argv[])
     char* infile = argv[2];
     char* outfile = argv[3];
     
+    // Make sure the scale is a positive number less than 101
+    if (scale < 1 || scale > 100)
+    {
+        printf ("The scale factor must be a positive number less than 101.\n");
+        return 2;
+    }
+    
     // open input file 
     FILE* inptr = fopen(infile, "r");
     if (inptr == NULL)
     {
         printf("Could not open %s.\n", infile);
-        return 2;
+        return 3;
     }
 
     // open output file
@@ -39,7 +46,7 @@ int main(int argc, char* argv[])
     {
         fclose(inptr);
         fprintf(stderr, "Could not create %s.\n", outfile);
-        return 3;
+        return 4;
     }
 
     // read infile's BITMAPFILEHEADER

@@ -1,0 +1,11 @@
+0.  an artificial long word said to mean a lung disease caused by inhaling very fine ash and sand dust.
+1.  returns resource usage measures for the argument who
+2.  16
+3.  I think it is to avoid putting another struct into memory.  That would take more time, and use more memory.
+4.  
+5.  TODO
+6.  TODO
+7.  TODO
+8.  TODO
+9.  TODO
+10. TODO
