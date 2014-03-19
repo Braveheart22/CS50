@@ -19,7 +19,7 @@
 // default dictionary
 #define DICTIONARY "/home/cs50/pset6/dictionaries/large"
 //#define DICTIONARY "/home/cs50/pset6/dictionaries/small"
-//#define DICTIONARY "MySmall"
+//#define DICTIONARY "mySmall"
 
 // prototype
 double calculate(const struct rusage* b, const struct rusage* a);
@@ -56,7 +56,6 @@ int main(int argc, char* argv[])
 
     // calculate time to load dictionary
     ti_load = calculate(&before, &after);
-    printf ("Time to load: %f.\n", ti_load);
 
     // try to open text
     char* text = (argc == 3) ? argv[2] : argv[1];

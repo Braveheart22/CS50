@@ -25,8 +25,9 @@ node;
 node root = {false, {NULL}};
 unsigned int wordCount = 0;
 
-//Prototype function
+//Prototype functions
 int charVal (char a);
+void freeUp (node* thisNode);
 
 /**
  * Returns true if word is in dictionary else false.
@@ -70,12 +71,13 @@ bool load(const char* dictionary)
         return false;
     }
 
-    printf ("DICTIONARY (%s) is open!\n", dictionary);
+//    printf ("DICTIONARY (%s) is open!\n", dictionary);
     //Cycle through the file, and load the trie
     while (!feof(dict))
     {
         char word[LENGTH + 1];
-        fscanf (dict, "%s", word);
+        if (fscanf (dict, "%s", word) < 1)
+            break;
         node* ptr = &root;
         // Iterate over the word 1 letter at a time
         for (int i = 0; i < strlen(word); i++)
@@ -109,7 +111,7 @@ bool load(const char* dictionary)
  */
 unsigned int size(void)
 {
-    printf ("Words in the dictionary: %i.\n", wordCount);
+//    printf ("Words in the dictionary: %i.\n", wordCount);
     return wordCount;
 }
 
@@ -118,16 +120,25 @@ unsigned int size(void)
  */
 bool unload(void)
 {
-    // TODO
-    return false;
+    freeUp (&root);
+    return true;
 }
 
 int charVal (char a)
 {
-
     if (a == '\'')
          return 26;
     else
         return tolower (a) - 'a';
+}
 
+void freeUp (node* thisNode)
+{
+    for (int i = 0; i < 26; i++)
+    {
+        if (thisNode->children[i] != NULL)
+            freeUp (thisNode->children[i]);
+        else
+            free (thisNode->children[i]);
+    }
 }

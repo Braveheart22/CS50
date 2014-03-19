@@ -2,7 +2,7 @@
 1.  returns resource usage measures for the argument who
 2.  16
 3.  I think it is to avoid putting another struct into memory.  That would take more time, and use more memory.
-4.  
+4.  Jon's JohN's
 5.  TODO
 6.  TODO
 7.  TODO
