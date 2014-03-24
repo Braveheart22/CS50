@@ -116,20 +116,24 @@ unsigned int size(void)
 }
 
 /**
- * Unloads dictionary from memory.  Returns true if successful else false.
+ * Unloads dictionary from memory.  Returns true if successful.
  */
 bool unload(void)
 {
-    freeUp (&root);
+    for (int i = 0; i < 26; i++)
+    {
+        if (root.children[i] != NULL)
+            freeUp (root.children[i]);
+    }
     return true;
 }
 
-int charVal (char a)
+int charVal (char c)
 {
-    if (a == '\'')
+    if (c == '\'')
          return 26;
     else
-        return tolower (a) - 'a';
+        return tolower (c) - 'a';
 }
 
 void freeUp (node* thisNode)
@@ -138,7 +142,6 @@ void freeUp (node* thisNode)
     {
         if (thisNode->children[i] != NULL)
             freeUp (thisNode->children[i]);
-        else
-            free (thisNode->children[i]);
     }
+    free (thisNode);
 }
