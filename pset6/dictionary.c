@@ -71,7 +71,6 @@ bool load(const char* dictionary)
         return false;
     }
 
-//    printf ("DICTIONARY (%s) is open!\n", dictionary);
     //Cycle through the file, and load the trie
     while (!feof(dict))
     {
@@ -87,6 +86,12 @@ bool load(const char* dictionary)
             if (ptr->children[place] == NULL)
             {
                 node* new = malloc (sizeof (node));
+                new->isWord = false;
+                for (int i = 0; i <= 26; i++)
+                {
+                    new->children[i] = NULL;
+                }
+//                node* new = calloc (???, sizeof (node));
                 ptr->children[place] = new;
                 ptr = new;
             }
@@ -111,7 +116,6 @@ bool load(const char* dictionary)
  */
 unsigned int size(void)
 {
-//    printf ("Words in the dictionary: %i.\n", wordCount);
     return wordCount;
 }
 
@@ -120,7 +124,7 @@ unsigned int size(void)
  */
 bool unload(void)
 {
-    for (int i = 0; i < 26; i++)
+    for (int i = 0; i <= 26; i++)
     {
         if (root.children[i] != NULL)
             freeUp (root.children[i]);
@@ -128,6 +132,10 @@ bool unload(void)
     return true;
 }
 
+/**
+ * Returns the array index value of the passed in character.
+ * returns 26 for ' (apostrophe).
+ */
 int charVal (char c)
 {
     if (c == '\'')
@@ -136,11 +144,14 @@ int charVal (char c)
         return tolower (c) - 'a';
 }
 
+/**
+ * Recursive function to free the memory of the passed in trie node
+ */
 void freeUp (node* thisNode)
 {
-    for (int i = 0; i < 26; i++)
+    for (int i = 0; i <= 26; i++)
     {
-        if (thisNode->children[i] != NULL)
+         if (thisNode->children[i] != NULL)
             freeUp (thisNode->children[i]);
     }
     free (thisNode);

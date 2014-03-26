@@ -2,10 +2,26 @@
 1.  returns resource usage measures for the argument who
 2.  16
 3.  I think it is to avoid putting another struct into memory.  That would take more time, and use more memory.
-4.  Jon's JohN's
-5.  TODO
-6.  TODO
-7.  TODO
-8.  TODO
-9.  TODO
-10. TODO
+4.  Once all the open, and error checking of the file to be read is done, speller.c begins to read each character,
+    one by one.  Each character is then checked.  If the character is a number, the rest of the word is read (with
+    a while statement), and essentially ignored by passing on to the next word (by resetting the index variable to 0).
+    If the character read is a letter, or an apostrophe, it is appended to the current word, and the index variable
+    is incremented by one.  If index ever exceeds the maximum word length (set by the LENGTH constant), the same while
+    loop is executed to bypass the word since it probably isn't even a real word.  If a character read is anything
+    else (such as a peiod, comma, space, tab), it will be assumed that we have reached the end of a word.  We then
+    terminate the word (by adding a null character to the end of the word array), update the word count of the
+    document being checked, and chekc if the word is in our dictionary.  If it isn't we assume the word is spelled
+    incorrectly, and increment the count of mispelled words, and print the word to the screen.  We then reset our
+    index counter, and start the process all over again.  Once the EOF is reached the for loop exits, and the program
+    continues.
+5.  One problem that could arise is that you may read a word that is larger than the size of the array assigned
+    to read each word, which could casue unpredictable results.  By reading 1 character at a time, and keeping track
+    of the length, you can bail once you reach the predetermined max length.
+6.  Constants are unable to be changed.  This should preserve the integrity of the variable.
+7.  A trie.  The structure in the trie consists of a boolean value to denote if this node if the trie is the end of
+    a word, and an array containing all of the possible characters (a-z, and ') that could follow the current node.
+8.  My code didn't vary much from the first implementation.  It was quicker mainly because of using a smaller
+    dictionary during development.
+9.  I didn't make any changes to increase the performance.  Only to get it working properly.
+10. The only possible bottleneck I have is in setting the default values of each new node.  I looked into using
+    calloc, but I was unsure of the proper use, as well as if it would actually speed the process up or not.
