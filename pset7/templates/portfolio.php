@@ -14,9 +14,8 @@
             <td><?= $position["name"] ?></td>
             <td><?= $position["symbol"] ?></td>
             <td><?= $position["shares"] ?></td>
-            <td><?= number_format($position["price"], 2) ?></td>
-
-            <td><?= number_format(is_null ($position["shares"]) ? $position["shares"] : 1 * $position["price"], 2) ?></td>
+            <td><?= number_format($position["price"], $position["name"] == "Cash" ? 2 : 4) ?></td>
+            <td><?= number_format(($position["shares"] == "" ? 1 : $position["shares"]) * $position["price"], 2) ?></td>
         </tr>
         <br/>
 
