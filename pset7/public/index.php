@@ -6,7 +6,6 @@
     // render portfolio
     $rows = query("SELECT symbol, shares FROM portfolio WHERE id = ?", $_SESSION["id"]);
     $positions = [];
-    $i = 1;
 
     foreach ($rows as $row)
     {

@@ -46,9 +46,16 @@ table
 th
 {
     text-align: center;
+    background-color: blue;
+    color: white;
 }
 
 td
 {
     text-align: left;
-} 
+}
+
+.number
+{
+    text-align: right;
+}
