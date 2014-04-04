@@ -218,5 +218,9 @@
             trigger_error("Invalid template: $template", E_USER_ERROR);
         }
     }
+    
+    /**
+     * Updates the history
+     */
 
 ?>

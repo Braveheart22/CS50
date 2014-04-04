@@ -29,6 +29,7 @@
             $rows = query("UPDATE users SET cash = cash + ? WHERE id = ?", ($stockToSell["shares"] * $stockToSell["price"]), $_SESSION["id"]);
             if ($rows !== false)
             {
+                $rows = query("INSERT INTO history (id, transaction_type, symbol, shares, price) VALUES (?, ?, ?, ?, ?)", $_SESSION["id"], "SELL", strtoupper ($stock["symbol"]), $stockToSell["shares"], $stockToSell["price"]);
                 render("sell.php", ["title" => "Sold", "stockToSell" => $stockToSell]);
             }
             else
